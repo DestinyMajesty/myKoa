@@ -41,7 +41,7 @@ class Mytest extends Component {
         return(
             <div>
                 <h1>名字：{name || '--'}</h1>
-                <button onClick={this.loadUser.bind(this)} >点我看返回的名字</button>
+                <button onClick={this.loadUser.bind(this)} >再点从服务器返回的名字</button>
             </div>
         )
     }

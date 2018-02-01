@@ -1,12 +1,28 @@
 import Koa from 'koa';
 import views from 'koa-views';
 import path from 'path';
-var router = require('koa-router')();
 
+// 根目录
+var rootPath = path.dirname(__dirname);
+
+
+// 路由
+var router = require('koa-router')();
 const api = require('../routes/api');
 router.use('/api', api.routes(), api.allowedMethods());
 
+// 清理编译目录
+var fs = require('fs-promise');
+fs.removeSync(rootPath + '/build/');
 
+// 另起进程webpack
+var child_process = require('child_process');
+var c = child_process.exec('npm run webpack -- --watch --color');
+c.stdout.pipe(process.stdout);
+c.stderr.pipe(process.stderr);
+
+
+// koa服务实例
 const app = new Koa();
 
 app.use(require('koa-static')(path.join(__dirname, '../build')));
