@@ -19,10 +19,15 @@ module.exports = {
               "transform-class-properties",
               "transform-es2015-classes",
               "transform-runtime",
+              ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }] // `style: true` 会加载 less 文件
             ]
           }
         }
-      }
+      },
+      {
+        test: /\.(less|css)$/,
+        use:[ 'style-loader','css-loader','less-loader'],
+      },
     ]
   }
 }

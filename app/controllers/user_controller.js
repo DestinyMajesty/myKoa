@@ -13,8 +13,11 @@ exports.getUser = async (ctx, next) => {
     let myresult = result.map((item) => {return item.name});
     console.log(myresult);
     ctx.body = {
-        username: myresult,
-        age: 30
+        data:{
+            username: myresult,
+            age: 30,
+        },
+        errno: 0,
     }
 }
 
@@ -22,14 +25,20 @@ exports.getUser = async (ctx, next) => {
 exports.registerUser = async (ctx, next) => {
     let request = ctx.request.body;
     if (typeof request.name === 'string'){
-        console.log(request.name);
         await collection.insert({ name: request.name })
         ctx.body = {
-            result: "success"
+            data:{
+                result: "success",                
+            },
+            errno: 0,
         }
     } else {
         ctx.body = {
-            result: "false"
+            data:{
+                result: "false",                
+            },
+            errno: 1,
+            errmsg: '注册失败',            
         }
     }
 

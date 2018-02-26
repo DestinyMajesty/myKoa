@@ -12,33 +12,33 @@ class Mytest extends Component {
         }
     }
 
-
-
-    async loadUser  () {
-        const url = '/api/users/getUser';
-        const reqData = {
-            cmd: 'queryUserName',
-        };
-        try{
-            const rawRes = await fetch(url, {
-                method: 'post',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reqData),
-                credentials: 'include',
-            });
-            let res = await rawRes.json();
-            console.log('res',res);
+    loadUser = () =>{
+        apiInfo({
+            url :'/api/users/getUser',
+            reqData:{
+                cmd: 'queryUserName',
+            }
+		}).then((data) => {
+            console.log(data);
             this.setState({
-                name: res.username,
+                name: data.username,
             })
-        }
-        catch (err) {
-            throw err;
-        }
+        })
     }
+    
+    addUser = (e) =>{
+        e & e.preventDefault();
+        apiInfo({
+            url :'/api/users/registerUser',
+            reqData:{
+                cmd: 'registerUserName',
+                name: this.state.value.newName,                
+            }
+		}).then((data) => {
+            console.log(data);
+        })
+    }
+
 
     handleChange = (event) => {
         this.setState({
@@ -48,41 +48,17 @@ class Mytest extends Component {
         });
     }
 
-    async addUser (e) {
-        e & e.preventDefault();
-        console.log(this.state.value.newName);
-        const url = '/api/users/registerUser';
-        const reqData = {
-            cmd: 'registerUserName',
-            name: this.state.value.newName,
-        };
-        try{
-            const rawRes = await fetch(url, {
-                method: 'post',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reqData),
-                credentials: 'include',
-            });
-        }
-        catch (err) {
-            throw err;
-        }
-    }
-
     render(){
         const {name, value} = this.state;
         return(
             <div>
                 <h1>名字：{name.join(',') || '--'}</h1>
-                <button onClick={this.loadUser.bind(this)} >再点从服务器返回的名字</button>
+                <button onClick={this.loadUser} >再点从服务器返回的名字</button>
                 <hr/>
                 <form >
                     <label>新增的名字</label>
                     <input type="text" name="firstname" value={value.newName} onChange={this.handleChange}/>
-                    <button onClick={this.addUser.bind(this)}>新增</button>
+                    <button onClick={this.addUser}>新增</button>
                 </form>
             </div>
         )
