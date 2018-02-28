@@ -15,7 +15,6 @@ exports.getUser = async (ctx, next) => {
     ctx.body = {
         data:{
             username: myresult,
-            age: 30,
         },
         errno: 0,
     }
