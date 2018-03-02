@@ -8,6 +8,8 @@ import {
 } from 'react-router-dom'
 import home from './routes/home';
 import users from './routes/users';
+import task from './routes/task';
+
 
 const Topic = ({ match }) => (
     <div>
@@ -49,16 +51,17 @@ const BasicExample = () => (
             <ul>
                 <li><Link to="/home">首页</Link></li>
                 <li><Link to="/users">用户</Link></li>
-                <li><Link to="/topics">Topics</Link></li>
+                <li><Link to="/task">任务</Link></li>
             </ul>
 
             <hr />
 
 			<Switch>
 				{/* 默认路由的实现 */}
-				<Route exact path="/" render={() => ((<Redirect to="/home" />))} />
+				<Route exact path="/" render={() => ((<Redirect to="/task" />))} />
 				<Route path="/home" exact component={home}/>
 				<Route path="/users" exact component={users}/>
+				<Route path="/task" exact component={task}/>
 			</Switch>
         </div>
     </Router>
