@@ -1,61 +1,115 @@
 
 import React from 'react';
-const R = require('ramda');
+import { render } from 'react-dom';
+import { createStore, bindActionCreators } from 'redux';
+import { Provider, connect } from 'react-redux';
+
+//action
+function changeText() {
+    return {
+        type: 'CHANGE_TEXT'
+    }
+}
+
+function buttonClick() {
+    return {
+        type: 'BUTTON_CLICK'
+    }
+}
+
+//reducer
+const initialState = {
+    text: 'Hello'
+}
+function myApp(state = initialState, action) {
+    switch (action.type) {
+        case 'CHANGE_TEXT':
+            return {
+                text: state.text == 'Hello' ? 'Stark' : 'Hello'
+            }
+        case 'BUTTON_CLICK':
+            return {
+                text: 'You just click button'
+            }
+        default:
+            return {
+                text: 'Hello'
+            };
+    }
+}
+
+//store
+let store = createStore(myApp);
 
 
 class Hello extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
-            text: 'Lorem ipsum dolor sit amet consectetur adipiscing elit',
-            result:'',
-        }
-    }
-    componentDidMount(){
-        this.setState({
-            result:  R.pipe(R.split(' '),R.map(R.length),R.reduce(R.max, 0))(this.state.text)
-        })
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    // 柯丽华
-    match = R.curry((what,str) =>{
-        return str.match(what);
-    })
-
-    map = R.curry((f, ary) => {
-        return ary.map(f);
-    });
-    
-    // 以空格分割单词
-    splitBySpace = s => s.split(' ');
-
-    // 每个单词的长度
-    getLength = w => w.length;
-
-    // 词的数组转换成长度的数组
-    getLengthArr = arr => R.map(this.getLength, arr); 
-
-    // 返回较大的数字
-    getBiggerNumber = (a, b) => a > b ? a : b;
-
-    // 返回最大的一个数字
-    findBiggestNumber = arr => R.reduce(this.getBiggerNumber, 0 ,arr);
-
-    getLongestWordLength = R.pipe(
-        this.splitBySpace,
-        this.getLengthArr,
-        this.findBiggestNumber
-    );
+    handleClick() {
+        this.props.actions.changeText();
+    }
 
     render() {
-        const {text,result} = this.state;
+        return (
+            <h1 onClick={this.handleClick}> {this.props.text} </h1>
+        );
+    }
+}
+
+class Change extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.props.actions.buttonClick();
+    }
+
+    render() {
+        return (
+            <button onClick={this.handleClick} >change</button>
+        );
+    }
+}
+
+class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const { actions, text } = this.props;
         return (
             <div>
-                <h1 >text: {text} </h1>
-                <h1>请问其中最长的单词有多少个字符</h1>
-                <h1 >result: {result} </h1>                
+                <Hello actions={actions} text={text} />
+                <Change actions={actions} />
             </div>
         );
     }
 }
-export default Hello;
+
+function mapStateToProps(state) {
+    return { text: state.text }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({ changeText: changeText, buttonClick: buttonClick }, dispatch)
+    }
+}
+
+const MyApp = connect(mapStateToProps, mapDispatchToProps)(App)
+function Mytest() {
+    return (
+        <Provider store={store}>
+            <MyApp />
+        </Provider>
+    )
+}
+
+export default Mytest;

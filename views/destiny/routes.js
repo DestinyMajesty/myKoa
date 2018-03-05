@@ -3,67 +3,40 @@ import {
     BrowserRouter as Router,
     Route,
     Link,
-	Switch,
+    Switch,
     Redirect,
-} from 'react-router-dom'
+} from 'react-router-dom';
+import { Provider} from 'react-redux';
+import store from './store';
 import home from './routes/home';
 import users from './routes/users';
 import task from './routes/task';
-
-
-const Topic = ({ match }) => (
-    <div>
-        <h3>{match.params.topicId}</h3>
-    </div>
-)
-
-const Topics = ({ match }) => (
-    <div>
-        <h2>Topics</h2>
-        <ul>
-            <li>
-                <Link to={`${match.url}/rendering`}>
-                    Rendering with React
-        </Link>
-            </li>
-            <li>
-                <Link to={`${match.url}/components`}>
-                    Components
-        </Link>
-            </li>
-            <li>
-                <Link to={`${match.url}/props-v-state`}>
-                    Props v. State
-        </Link>
-            </li>
-        </ul>
-
-        <Route path={`${match.path}/:topicId`} component={Topic} />
-        <Route exact path={match.path} render={() => (
-            <h3>Please select a topic.</h3>
-        )} />
-    </div>
-)
+import todoList from './routes/todo-list';
 
 const BasicExample = () => (
-    <Router>
-        <div>
-            <ul>
-                <li><Link to="/home">首页</Link></li>
-                <li><Link to="/users">用户</Link></li>
-                <li><Link to="/task">任务</Link></li>
-            </ul>
+    <Provider store={store}>
+        <Router>
+            <div>
+                <ul>
+                    <li><Link to="/home">首页</Link></li>
+                    <li><Link to="/users">用户</Link></li>
+                    <li><Link to="/task">任务</Link></li>
+                    <li><Link to="/todolist">事务列表</Link></li>
+                </ul>
 
-            <hr />
+                <hr />
 
-			<Switch>
-				{/* 默认路由的实现 */}
-				<Route exact path="/" render={() => ((<Redirect to="/task" />))} />
-				<Route path="/home" exact component={home}/>
-				<Route path="/users" exact component={users}/>
-				<Route path="/task" exact component={task}/>
-			</Switch>
-        </div>
-    </Router>
+                <Switch>
+                    {/* 默认路由的实现 */}
+                    <Route exact path="/" render={() => ((<Redirect to="/home" />))} />
+                    <Route path="/home" exact component={home} />
+                    <Route path="/users" exact component={users} />
+                    <Route path="/task" exact component={task} />
+                    <Route path="/todolist" exact component={todoList} />
+                </Switch>
+            </div>
+        </Router>
+    </Provider>
+
 )
 export default BasicExample

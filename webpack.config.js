@@ -1,6 +1,6 @@
 const path = require('path')
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-source-map',
   entry: `${__dirname}/views/main.js`,
   output: {
     filename: 'bundle.js',
