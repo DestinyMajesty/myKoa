@@ -7,6 +7,9 @@ export default function apiInfo(data, showError) {
 		info = data;
 	} else {
 		const {url, reqData} = data;
+		console.log('url-->',url);
+		console.log('reqData-->',reqData);
+		
 		info = fetch(url, {
 			method: 'post',
 			headers: {

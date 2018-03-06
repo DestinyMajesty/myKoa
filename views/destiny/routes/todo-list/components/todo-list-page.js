@@ -1,5 +1,5 @@
 import React from 'react';
-import { toggleTodo, addTodo} from './todo-list-redux';  
+import { getTodo,toggleTodo, addTodo} from './todo-list-redux';  
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -20,7 +20,10 @@ class Todo extends React.Component {
     }  
 }
 
-class TodoList extends React.Component {  
+class TodoList extends React.Component {
+    componentDidMount(){
+        this.props.actions.getTodo();
+    }  
     render() {  
         return (  
             <ul>  
@@ -86,7 +89,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({ addTodo: addTodo, toggleTodo: toggleTodo }, dispatch)
+        actions: bindActionCreators({ addTodo: addTodo, toggleTodo: toggleTodo, getTodo:getTodo}, dispatch)
     }
 }
 
