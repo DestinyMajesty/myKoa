@@ -1,60 +1,22 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore, bindActionCreators } from 'redux';
-import { Provider, connect } from 'react-redux';
-
-//action
-function changeText() {
-    return {
-        type: 'CHANGE_TEXT'
-    }
-}
-
-function buttonClick() {
-    return {
-        type: 'BUTTON_CLICK'
-    }
-}
-
-//reducer
-const initialState = {
-    text: 'Hello'
-}
-function myApp(state = initialState, action) {
-    switch (action.type) {
-        case 'CHANGE_TEXT':
-            return {
-                text: state.text == 'Hello' ? 'Stark' : 'Hello'
-            }
-        case 'BUTTON_CLICK':
-            return {
-                text: 'You just click button'
-            }
-        default:
-            return {
-                text: 'Hello'
-            };
-    }
-}
-
-//store
-let store = createStore(myApp);
+import { observable, computed, autorun } from "mobx";
+import { Provider,  observer ,  inject} from 'mobx-react';
 
 
 class Hello extends React.Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick() {
-        this.props.actions.changeText();
+    handleClick =() => {
+
     }
 
     render() {
         return (
-            <h1 onClick={this.handleClick}> {this.props.text} </h1>
+            <h1 onClick={this.handleClick}> 点我 </h1>
         );
     }
 }
@@ -76,37 +38,31 @@ class Change extends React.Component {
     }
 }
 
-class App extends React.Component {
+@inject("color")
+@observer
+class MyApp extends React.Component {
 
     constructor(props) {
         super(props);
     }
+    componentDidMount(){
+        console.log('注入->：',  this.props.color) 
+    }
 
     render() {
-        const { actions, text } = this.props;
         return (
             <div>
-                <Hello actions={actions} text={text} />
-                <Change actions={actions} />
+                <Hello />
+                {/* <Change /> */}
             </div>
         );
     }
 }
 
-function mapStateToProps(state) {
-    return { text: state.text }
-}
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({ changeText: changeText, buttonClick: buttonClick }, dispatch)
-    }
-}
-
-const MyApp = connect(mapStateToProps, mapDispatchToProps)(App)
 function Mytest() {
     return (
-        <Provider store={store}>
+        <Provider color="red" text="厉害啊">
             <MyApp />
         </Provider>
     )

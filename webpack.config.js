@@ -16,6 +16,7 @@ module.exports = {
           options: {
             presets: ['env', 'react'],
             plugins: [
+              "transform-decorators-legacy",
               "transform-class-properties",
               "transform-es2015-classes",
               "transform-runtime",

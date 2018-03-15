@@ -6,15 +6,16 @@ import {
     Switch,
     Redirect,
 } from 'react-router-dom';
-import { Provider} from 'react-redux';
-import store from './store';
+import { Provider } from 'mobx-react';
+import * as stores from './store';
 import home from './routes/home';
 import users from './routes/users';
 import task from './routes/task';
 import todoList from './routes/todo-list';
-
+console.log(stores);
 const BasicExample = () => (
-    <Provider store={store}>
+
+    <Provider {...stores}>
         <Router>
             <div>
                 <ul>
@@ -27,11 +28,10 @@ const BasicExample = () => (
                 <hr />
 
                 <Switch>
-                    {/* 默认路由的实现 */}
                     <Route exact path="/" render={() => ((<Redirect to="/home" />))} />
                     <Route path="/home" exact component={home} />
                     <Route path="/users" exact component={users} />
-                    <Route path="/task" exact component={task} />
+                    <Route path="/task" exact component={task}/> />
                     <Route path="/todolist" exact component={todoList} />
                 </Switch>
             </div>
