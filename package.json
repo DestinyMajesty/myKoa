@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --harmony server/index.js",
-    "webpack": "webpack"
+    "webpack": "webpack",
+    "pm2run": "pm2 start server/config/pm2.config.js"
   },
   "repository": {
     "type": "git",
