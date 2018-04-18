@@ -4,7 +4,7 @@ module.exports = {
         name: 'mykoa',
 
         // 启动的入口
-        script: 'server/index.js',
+        script: 'server/production.js',
 
         // app.js的位置
         // cwd: 'z:/workspaces/_nova_04_api/webroot-dev/',

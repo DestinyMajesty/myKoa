@@ -12,7 +12,7 @@ import home from './routes/home';
 import users from './routes/users';
 import task from './routes/task';
 import todoList from './routes/todo-list';
-console.log(stores);
+
 const BasicExample = () => (
 
     <Provider {...stores}>

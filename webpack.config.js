@@ -3,7 +3,7 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: `${__dirname}/views/main.js`,
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: `${__dirname}/build`,
   },
   module: {
