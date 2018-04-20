@@ -16,7 +16,7 @@ import todoList from './routes/todo-list';
 const BasicExample = () => (
 
     <Provider {...stores}>
-        <Router>
+        <Router basename="mykoav1">
             <div>
                 <ul>
                     <li><Link to="/home">首页</Link></li>
